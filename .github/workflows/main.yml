@@ -1,0 +1,30 @@
+name: Deploy app to github pages
+
+on:
+  push:
+    branches: main
+
+jobs:
+  deploy-to-run-github-pages:
+    runs-on: ubuntu-latest
+    steps:
+    
+    # Clone repository on VM
+    - uses: actions/checkout@v2
+    
+    # Install .NET SDK
+    - name: Setup .NET 7
+      uses: actions/setup-dotnet@latest
+      with:
+        dotnet-version: '7.0.x'
+        include-prerelease: true
+        
+    # Generate static files
+    - name: Publish project
+      run: dotnet publish --project AquaHelps.Client -c Release --output release --nologo
+      
+    - name: Uploading files to gh-pages branch
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: gh-pages
+        folder: release/wwwroot
