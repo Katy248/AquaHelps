@@ -30,8 +30,8 @@ jobs:
     
     # Change '/' to '/AquaHelps/'
     - name: Change base-tag in index.html from / to AquaHelps
-      run: sed -i 's/<base href="\/" \/>/<base href="\/AquaHelps\/" \/>/g' ./AquaHelps/bin/release/wwwroot/index.html
+      run: sed -i 's/<base href="\/" \/>/<base href="\/AquaHelps\/" \/>/g' ./AquaHelps/bin/release/net7.0/wwwroot/index.html
     
     # Disable jekyll
     - name: Add .nojekyll file
-      run: touch release/wwwroot/.nojekyll
+      run: touch ./AquaHelps/bin/release/net7.0/wwwroot/.nojekyll
