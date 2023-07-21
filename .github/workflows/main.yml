@@ -22,16 +22,16 @@ jobs:
     - name: Publish project
       run: dotnet publish AquaHelps.Client -c Release --output release --nologo
       
+    # Change '/' to '/AquaHelps/'
+    - name: Change base-tag in index.html from / to AquaHelps
+      run: sed -i 's/<base href="\/" \/>/<base href="\/AquaHelps\/" \/>/g' /release/wwwroot/index.html
+    
+    # Disable jekyll
+    - name: Add .nojekyll file
+      run: touch /release/wwwroot/.nojekyll
+      
     - name: Uploading files to gh-pages branch
       uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
         branch: gh-pages
         folder: release/wwwroot
-    
-    # Change '/' to '/AquaHelps/'
-    - name: Change base-tag in index.html from / to AquaHelps
-      run: sed -i 's/<base href="\/" \/>/<base href="\/AquaHelps\/" \/>/g' ./AquaHelps/release/net7.0/wwwroot/index.html
-    
-    # Disable jekyll
-    - name: Add .nojekyll file
-      run: touch ./AquaHelps/release/net7.0/wwwroot/.nojekyll
