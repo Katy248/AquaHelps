@@ -1,3 +1,29 @@
 ﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+h1 {
+    @apply text-3xl pt-3 uppercase font-semibold;
+}
+
+h2 {
+    @apply text-2xl pt-3 capitalize;
+}
+
+h3 {
+    @apply text-xl pt-3 capitalize;
+}
+
+img {
+    @apply rounded-xl flex my-4;
+}
+
+q,
+blockquote {
+    @apply ps-5 text-gray-400;
+}
+
+ul,
+li {
+    @apply list-decimal ms-2;
+}

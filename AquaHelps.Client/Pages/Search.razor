@@ -1,0 +1,51 @@
+﻿@page "/Search"
+
+@using AquaHelps.Client.Models
+@using AquaHelps.Client.Services
+
+@inject ItemsService ItemsService
+
+<div class="flex flex-col gap-2">
+    <div class="bg-white flex rounded-xl p-2 shadow-white drop-shadow-2xl">
+        <input class="p-2 font-semibold rounded-xl block focus:outline-none flex-grow" placeholder="Search..." @bind-value="_search" @bind-value:after="OnSearchChanged">
+    </div>
+
+        @if(SearchResult is null)
+        {
+
+        }
+        else if (SearchResult.Count() == 0)
+        {
+            <div class="bg-white shadow-white drop-shadow-2xl rounded-xl flex flex-col gap-2 p-2">
+                <div class="p-2">No result</div>
+            </div>
+        }
+        else 
+        {
+            <div class="bg-white shadow-white drop-shadow-2xl rounded-xl flex flex-col gap-2 p-2">
+                @foreach(var item in SearchResult)
+                {
+                    <div class="p-2 rounded-xl bg-gray-100 shadow-gray-50 hover:bg-gradient-to-r hover:from-gray-300 hover:to-gray-200">@item.Name</div>
+                }
+            </div>
+        }
+        
+    </div>
+@code{
+    private string _search = string.Empty;
+    private IEnumerable<Item>? SearchResult;
+    private async Task OnSearchChanged()
+    {
+        await PerformSearch();
+        StateHasChanged();
+    } 
+    private async Task PerformSearch()
+    {
+        SearchResult = ItemsService.Search(_search);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        //await PerformSearch();
+        await base.OnInitializedAsync();
+    }
+}

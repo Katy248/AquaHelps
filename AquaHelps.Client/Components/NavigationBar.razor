@@ -1,4 +1,10 @@
-﻿<div class="flex flex-row">
-    <Button Text="Button"/>
+﻿<div class="flex flex-row justify-between gap-2 sm:justify-start">
+    @foreach(var page in Pages)
+    {
+        <Button ButtonText="@(page.Text)" Page="@(page.Page)" IconName="@(page.IconName)"></Button>
+    }
 </div>
-@code { } 
+@code { 
+
+    private IEnumerable<(string Text, string Page, string? IconName)> Pages = new[] {("Home", "/", "home"), ("Docs", "", "document"), ("Search", "/Search", "search")};
+} 
