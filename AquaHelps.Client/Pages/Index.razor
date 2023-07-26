@@ -1,3 +1,40 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using AquaHelps.Client.Services
+@using AquaHelps.Client.Models
+
+@inject PostsService PostsService
+@inject MarkdownService MarkdownService
+
+<div class="text-2xl text-center text-white font-semibold">AquaHelps</div>
+
+@if(_posts is null)
+{
+    <div class="text-xl text-center py-5 text-white">Loading...</div>
+}
+else if (_posts.Count() == 0)
+{
+    <div>Empty</div>
+}
+else
+{
+    <div class="flex flex-col sm:flex-row gap-2">
+    @foreach(var post in _posts)
+    {
+        <div class="bg-white rounded-xl p-5">
+            <div class=" text-lg">@(MarkdownService.ParseToHtml(post.Text))</div>
+            <div class="text-gray-300 text-sm pt-3">@post.CreatedOn</div>
+        </div>
+    }
+    </div>
+}
+
+@code{
+    private IEnumerable<Post>? _posts;
+    protected override async Task OnInitializedAsync()
+    {
+        _posts = await PostsService.GetPosts();
+
+        await base.OnInitializedAsync();
+    }
+}
