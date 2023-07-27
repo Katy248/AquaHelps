@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AquaHelps.Application.Validation;
-using AquaHelps.Domain.Models;
+﻿using AquaHelps.Application.Validation;
 using AquaHelps.Infrastructure;
 using AquaHelps.Infrastructure.Repository;
 
@@ -27,7 +21,7 @@ public class EditPostCommandHandler : IRequestHandler<EditPostCommand, OneOf<Pos
         var post = await _repository.GetByIdRequired(request.Id, cancellationToken);
 
         post.Text = request.Text;
-        
+
         await _repository.Update(post, cancellationToken);
 
         return post;

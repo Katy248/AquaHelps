@@ -1,7 +1,7 @@
-﻿global using FluentValidation;
+﻿global using AquaHelps.Domain.Models;
+global using FluentValidation;
 global using MediatR;
 global using OneOf;
-global using AquaHelps.Domain.Models;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 

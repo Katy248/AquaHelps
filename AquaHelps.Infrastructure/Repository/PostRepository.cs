@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AquaHelps.Domain.Models;
-using AquaHelps.Infrastructure.Repositories;
+﻿using AquaHelps.Domain.Models;
 
 namespace AquaHelps.Infrastructure.Repository;
-public class PostRepository : Repository<Post>
+public class PostRepository : SearchableRepository<Post>
 {
     public PostRepository(ApplicationDbContext context) : base(context)
     {
         //AddIncludeStatement(post => post.Creator);
+        AddSearchSelector(post => post.Text);
+        AddSearchSelector(post => post.Creator?.UserName ?? "");
     }
 }

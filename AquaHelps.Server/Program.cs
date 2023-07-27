@@ -1,6 +1,5 @@
 global using AquaHelps.Application;
 global using AquaHelps.Infrastructure;
-global using OneOf;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

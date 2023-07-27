@@ -1,5 +1,4 @@
 ﻿using AquaHelps.Application.Validation;
-using AquaHelps.Domain.Models;
 using AquaHelps.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 

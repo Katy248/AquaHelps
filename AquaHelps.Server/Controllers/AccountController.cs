@@ -29,7 +29,8 @@ public class AccountController : ControllerBase
 
         if (result.Succeeded)
             return Ok();
-        else return BadRequest(result);
+        else
+            return BadRequest(result);
     }
     [HttpPost("ChangePassword"), Authorize]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
@@ -40,7 +41,7 @@ public class AccountController : ControllerBase
 
         if (result.Succeeded)
             return Ok();
-        else 
+        else
             return BadRequest(result.Errors);
     }
     [HttpGet("Logout"), Authorize]

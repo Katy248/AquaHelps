@@ -27,7 +27,7 @@ public class PostsController : ControllerBase
 
         var result = await _mediator.Send(command);
 
-        return result.Match<IActionResult>(Ok,BadRequest);
+        return result.Match<IActionResult>(Ok, BadRequest);
     }
     [HttpGet("Get")]
     public async Task<IActionResult> Get()

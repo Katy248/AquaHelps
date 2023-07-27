@@ -39,6 +39,6 @@ public class UsersSetup
     private const string AdminPassword = "P@$$w0rd";
     private static readonly IdentityRole AdminRole = new IdentityRole("ADMIN")
     {
-        
+
     };
 }

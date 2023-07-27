@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AquaHelps.Domain;
+﻿using AquaHelps.Domain;
 
 namespace AquaHelps.Infrastructure.Repository;
 public static class RepositoryExtensions
@@ -14,7 +9,7 @@ public static class RepositoryExtensions
 
         if (entity == null)
             throw new KeyNotFoundException($"There no entity with key \"${id}\" in set.");
-        
+
         return entity;
     }
 }

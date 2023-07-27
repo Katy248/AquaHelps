@@ -7,7 +7,7 @@
 
 <div class="flex flex-col gap-2">
     <div class="bg-white flex rounded-xl p-2 shadow-white drop-shadow-2xl">
-        <input class="p-2 font-semibold rounded-xl block focus:outline-none flex-grow" placeholder="Search..." @bind-value="_search" @bind-value:after="OnSearchChanged">
+        <input class="p-2 font-semibold rounded-xl block focus:outline-none flex-grow" placeholder="Search..." @bind-value="_search" @bind-value:event="oninput" @bind-value:after="OnSearchChanged">
     </div>
 
         @if(SearchResult is null)
@@ -16,8 +16,8 @@
         }
         else if (SearchResult.Count() == 0)
         {
-            <div class="bg-white shadow-white drop-shadow-2xl rounded-xl flex flex-col gap-2 p-2">
-                <div class="p-2">No result</div>
+            <div class="bg-white shadow-white drop-shadow-2xl rounded-xl font-semibold flex flex-col gap-2 p-2">
+                <div class="p-2">No results</div>
             </div>
         }
         else 
@@ -36,6 +36,7 @@
     private IEnumerable<Item>? SearchResult;
     private async Task OnSearchChanged()
     {
+        SearchResult = null;
         await PerformSearch();
         StateHasChanged();
     } 

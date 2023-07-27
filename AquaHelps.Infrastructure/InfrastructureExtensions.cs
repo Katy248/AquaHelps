@@ -17,6 +17,7 @@ public static class InfrastructureExtensions
 
         services
             .AddScoped<IRepository<Document>, DocumentRepository>()
+            .AddScoped<ISearchableRepository<Post>, PostRepository>()
             .AddScoped<IRepository<Post>, PostRepository>();
 
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -28,7 +29,7 @@ public static class InfrastructureExtensions
 
         services.AddIdentityServer()
             .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-            ;
+        ;
 
         services.AddAuthentication()
             .AddIdentityServerJwt();

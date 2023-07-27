@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AquaHelps.Application.Validation;
+﻿using AquaHelps.Application.Validation;
 using AquaHelps.Infrastructure;
 using AquaHelps.Infrastructure.Repository;
 
@@ -22,7 +17,7 @@ public class GetPostQueryHandler : IRequestHandler<GetPostQuery, OneOf<Post, Err
     {
         if (!_validator.ValidateTo(request, out var errors, cancellationToken))
             return errors;
-        
+
         var post = await _repository.GetByIdRequired(request.Id, cancellationToken);
 
         return post;

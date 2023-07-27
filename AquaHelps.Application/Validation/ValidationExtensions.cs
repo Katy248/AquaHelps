@@ -1,8 +1,6 @@
 ﻿using System.Security.Claims;
 using AquaHelps.Domain;
-using AquaHelps.Domain.Models;
 using AquaHelps.Infrastructure;
-using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
