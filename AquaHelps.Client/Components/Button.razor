@@ -1,23 +1,38 @@
 @inject NavigationManager NavigationManager
-<button 
-    class="
-        bg-blue-600 hover:bg-blue-500 rounded-lg shadow-blue-700 drop-shadow-xl flex-grow sm:flex-grow-0"
-        @onclick="ClickHandler">
-    <div class="text-white font-medium py-2 px-4 flex flex-row justify-center">
-        @if(IconName is not null )
-        {
-            <ion-icon class="text-center py-1 pe-3" name="@IconName"></ion-icon>
-        }
-        @ButtonText</div>
-</button>
-@code {
+<button
+    class="@ColorClasses()  flex-grow sm:flex-grow-0"
+@onclick="ClickHandler">
+    <div class=" font-medium py-2 px-4 flex flex-row justify-center">
+        @if (IconName is not null)
 
+        {
+            <i class="text-center @(string.IsNullOrWhiteSpace(ButtonText) ? "" : "pe-3") bi-@IconName"></i>
+        }
+            @ButtonText
+    </div>
+</button>
+@* <div class="hidden hover:bg-gray-400 text-gray-800 hover:shadow-gray-500 rounded-lg drop-shadow-xl">
+
+</div> *@
+@code {
     [Parameter] public string ButtonText { get; set; } = string.Empty;
     [Parameter] public string? IconName { get; set; }
-    [Parameter] public string Page {get;set;} = string.Empty;
-    private async Task ClickHandler(){
-        if(!string.IsNullOrWhiteSpace(Page)){
-            NavigationManager.NavigateTo(Page);
-        }
+    [Parameter] public string Page { get; set; } = string.Empty; 
+    [Parameter] public string ButtonType { get; set; } = string.Empty; 
+
+    private async Task ClickHandler()
+    {
+        if (!string.IsNullOrWhiteSpace(Page)) { NavigationManager.NavigateTo(Page); }
     }
-} 
+
+    private string ColorClasses()
+    {
+        return ButtonType switch
+        {
+            "Primary" => "bg-blue-600 hover:bg-blue-500 shadow-blue-700 rounded-lg drop-shadow-xl",
+            "Secondary" => "bg-amber-500 hover:bg-amber-400 shadow-amber-500 rounded-lg drop-shadow-xl",
+            "Hidden" => " hover:bg-gray-300 text-gray-800 hover:shadow-gray-500 rounded-lg ",
+            _ => "bg-blue-600 hover:bg-blue-500 rounded-lg shadow-blue-700 drop-shadow-xl"
+        };
+    }
+}

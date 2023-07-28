@@ -1,5 +1,6 @@
 ﻿using AquaHelps.Domain.Models;
-using AquaHelps.Server.ViewModels.Account;
+using AquaHelps.Shared.Requests.Account;
+using AquaHelps.Shared.Responses.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ public class AccountController : ControllerBase
         _signInManager = signInManager;
     }
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+    public async Task<IActionResult> Login([FromBody] LoginRequest model)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -33,7 +34,7 @@ public class AccountController : ControllerBase
             return BadRequest(result);
     }
     [HttpPost("ChangePassword"), Authorize]
-    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest model)
     {
         var user = (await _userManager.GetUserAsync(User))!;
 
@@ -50,5 +51,13 @@ public class AccountController : ControllerBase
         await _signInManager.SignOutAsync();
 
         return Ok();
+    }
+    [HttpGet("Status")]
+    public async Task<IActionResult> Status()
+    {
+        if (_signInManager.IsSignedIn(User))
+            return Ok(new AccountStatus("SignedIn"));
+        else
+            return Ok(new AccountStatus("NotSignedIn"));
     }
 }

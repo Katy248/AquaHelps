@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AquaHelps.Domain\AquaHelps.Domain.csproj" />
+    <ProjectReference Include="..\AquaHelps.Shared\AquaHelps.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

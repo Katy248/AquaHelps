@@ -11,6 +11,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(/*builde
 
 builder.Services
     .AddScoped<MarkdownService>()
+    .AddScoped<AccountService>()
     .AddScoped<PostsService>()
     .AddScoped<DocumentsService>()
     .AddScoped<ItemsService>();

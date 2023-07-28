@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AquaHelps.Application", "Aq
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AquaHelps.Infrastructure", "AquaHelps.Infrastructure\AquaHelps.Infrastructure.csproj", "{5374EC77-F2BE-4DEB-83FA-11E0F698D976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquaHelps.Server", "AquaHelps.Server\AquaHelps.Server.csproj", "{008ECB84-EBDC-44A3-9B95-8399E9B1F16B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AquaHelps.Server", "AquaHelps.Server\AquaHelps.Server.csproj", "{008ECB84-EBDC-44A3-9B95-8399E9B1F16B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquaHelps.Shared", "AquaHelps.Shared\AquaHelps.Shared.csproj", "{3EC6D201-7151-43DA-88E3-840BB5566FF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{008ECB84-EBDC-44A3-9B95-8399E9B1F16B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{008ECB84-EBDC-44A3-9B95-8399E9B1F16B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{008ECB84-EBDC-44A3-9B95-8399E9B1F16B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EC6D201-7151-43DA-88E3-840BB5566FF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EC6D201-7151-43DA-88E3-840BB5566FF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EC6D201-7151-43DA-88E3-840BB5566FF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EC6D201-7151-43DA-88E3-840BB5566FF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

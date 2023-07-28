@@ -4,6 +4,8 @@
 @using AquaHelps.Client.Services
 
 @inject ItemsService ItemsService
+@inject PostsService PostsService
+@inject MarkdownService MarkdownService
 
 <div class="flex flex-col gap-2">
     <div class="bg-white flex rounded-xl p-2 shadow-white drop-shadow-2xl">
@@ -12,7 +14,10 @@
 
         @if(SearchResult is null)
         {
-
+            @if(_searching)
+            {
+                <div>Searching...</div>
+            }
         }
         else if (SearchResult.Count() == 0)
         {
@@ -25,7 +30,12 @@
             <div class="bg-white shadow-white drop-shadow-2xl rounded-xl flex flex-col gap-2 p-2">
                 @foreach(var item in SearchResult)
                 {
-                    <div class="p-2 rounded-xl bg-gray-100 shadow-gray-50 hover:bg-gradient-to-r hover:from-gray-300 hover:to-gray-200">@item.Name</div>
+                    <div class="p-2 rounded-xl bg-gray-100 shadow-gray-50 hover:bg-gradient-to-r hover:from-gray-300 hover:to-gray-200">
+                        <div class="p-2">
+                        @(MarkdownService.ParseToHtml(item.Text.Split('\n').FirstOrDefault()))
+                            @*@item.Text.Split('\n').FirstOrDefault()*@
+                        </div>
+                    </div>
                 }
             </div>
         }
@@ -33,7 +43,8 @@
     </div>
 @code{
     private string _search = string.Empty;
-    private IEnumerable<Item>? SearchResult;
+    private IEnumerable<Post>? SearchResult;
+        private bool _searching = false;
     private async Task OnSearchChanged()
     {
         SearchResult = null;
@@ -42,7 +53,9 @@
     } 
     private async Task PerformSearch()
     {
-        SearchResult = ItemsService.Search(_search);
+        _searching = true;
+        SearchResult = await PostsService.Search(_search);
+        _searching = false;
     }
     protected override async Task OnInitializedAsync()
     {

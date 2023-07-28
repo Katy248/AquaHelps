@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @using AquaHelps.Client.Services
+@using AquaHelps.Client.Components
 @using AquaHelps.Client.Models
 
 @inject PostsService PostsService
@@ -10,7 +11,7 @@
 
 @if(_posts is null)
 {
-    <div class="text-xl text-center py-5 text-white">Loading...</div>
+    <div class="text-xl font-bold text-center py-5 text-white">Loading...</div>
 }
 else if (_posts.Count() == 0)
 {
@@ -18,12 +19,15 @@ else if (_posts.Count() == 0)
 }
 else
 {
-    <div class="flex flex-col sm:flex-row gap-2">
+    <div class="flex flex-col gap-2 markdown">
     @foreach(var post in _posts)
     {
-        <div class="bg-white rounded-xl p-5">
+        <div class="bg-gradient-to-br rounded-xl p-5 from-white to-gray-200 shadow-white drop-shadow-2xl">
             <div class=" text-lg">@(MarkdownService.ParseToHtml(post.Text))</div>
-            <div class="text-gray-300 text-sm pt-3">@post.CreatedOn</div>
+            <div class="flex gap-2 justify-between">
+                <div class="text-gray-300 text-sm pt-3">@post.CreatedOn</div>
+                <Button ButtonText="View more" ButtonType="Hidden"></Button>
+            </div>
         </div>
     }
     </div>

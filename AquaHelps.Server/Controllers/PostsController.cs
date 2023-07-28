@@ -3,11 +3,12 @@ using AquaHelps.Application.CQRS.Posts.Commands.Delete;
 using AquaHelps.Application.CQRS.Posts.Commands.Edit;
 using AquaHelps.Application.CQRS.Posts.Queries.Get;
 using AquaHelps.Application.CQRS.Posts.Queries.GetAll;
-using AquaHelps.Server.ViewModels.Account;
-using AquaHelps.Server.ViewModels.Posts;
+using AquaHelps.Application.CQRS.Posts.Queries.Search;
+using AquaHelps.Shared.Requests.Posts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace AquaHelps.Server.Controllers;
 
@@ -21,7 +22,7 @@ public class PostsController : ControllerBase
         _mediator = mediator;
     }
     [HttpPost("Create"), Authorize]
-    public async Task<IActionResult> Create([FromBody] CreatePostViewModel model)
+    public async Task<IActionResult> Create([FromBody] CreatePostRequest model)
     {
         var command = new CreatePostCommand(model.Text, User);
 
@@ -38,6 +39,15 @@ public class PostsController : ControllerBase
 
         return Ok(result);
     }
+    [HttpGet("Search/{searchQuery}")]
+    public async Task<IActionResult> Search([FromRoute] string searchQuery)
+    {
+        var query = new SearchPostQuery(HttpUtility.HtmlDecode(searchQuery));
+
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
+    }
     [HttpGet("Get/{id}")]
     public async Task<IActionResult> Get([FromRoute] string id)
     {
@@ -47,7 +57,7 @@ public class PostsController : ControllerBase
         return result.Match<IActionResult>(Ok, BadRequest);
     }
     [HttpPost("Edit"), Authorize]
-    public async Task<IActionResult> Edit([FromBody] EditPostViewModel model)
+    public async Task<IActionResult> Edit([FromBody] EditPostRequest model)
     {
         var command = new EditPostCommand(model.Id, model.Text, User);
 
@@ -65,3 +75,4 @@ public class PostsController : ControllerBase
         return result.Match<IActionResult>(_ => Ok(), BadRequest);
     }
 }
+

@@ -1,4 +1,7 @@
-﻿using AquaHelps.Domain;
+﻿using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Linq;
+using AquaHelps.Domain;
 using AquaHelps.Infrastructure.Repositories;
 
 namespace AquaHelps.Infrastructure.Repository;
@@ -10,20 +13,13 @@ public abstract class SearchableRepository<TEntity> : Repository<TEntity>, ISear
 
     public IQueryable<TEntity> Search(string searchQuery)
     {
-        return GetQuery().Where(entity => ContainsSearchQuery(entity, searchQuery));
+        var query = GetQuery();
+
+        query = SearchExpression(query, searchQuery);
+        
+
+        return query;
     }
-    private readonly List<Func<TEntity, string>> _searchSelectors = new();
-    protected void AddSearchSelector(Func<TEntity, string> selector)
-    {
-        _searchSelectors.Add(selector);
-    }
-    private bool ContainsSearchQuery(TEntity entity, string searchQuery)
-    {
-        foreach (var selector in _searchSelectors)
-        {
-            if (selector(entity).Contains(searchQuery))
-                return true;
-        }
-        return false;
-    }
+    
+    protected Func<IQueryable<TEntity>, string, IQueryable<TEntity>> SearchExpression { get; set; }
 }

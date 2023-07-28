@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AquaHelps.Application\AquaHelps.Application.csproj" />
+    <ProjectReference Include="..\AquaHelps.Shared\AquaHelps.Shared.csproj" />
   </ItemGroup>
 
 </Project>

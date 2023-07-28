@@ -2,28 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-h1 {
-    @apply text-3xl pt-3 uppercase font-semibold;
+.markdown h1
+{
+	@apply text-3xl pt-3 uppercase font-semibold;
 }
 
-h2 {
-    @apply text-2xl pt-3 capitalize;
+.markdown h2 {
+	@apply text-2xl pt-3 capitalize;
 }
 
-h3 {
-    @apply text-xl pt-3 capitalize;
+.markdown h3 {
+	@apply text-xl pt-3 capitalize;
 }
 
-img {
-    @apply rounded-xl flex my-4;
+.markdown img {
+	@apply rounded-xl flex my-4;
 }
 
-q,
+.markdown q,
 blockquote {
-    @apply ps-5 text-gray-400;
+	@apply ps-5 text-gray-400;
 }
 
-ul,
+.markdown ul,
 li {
-    @apply list-decimal ms-2;
+	@apply list-decimal ms-2;
 }
+
