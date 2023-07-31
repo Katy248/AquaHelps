@@ -1,16 +1,21 @@
-﻿using AquaHelps.Domain.Models;
+﻿using System.Text;
+using AquaHelps.Domain.Models;
 using AquaHelps.Infrastructure.Repository;
 using AquaHelps.Infrastructure.Setup;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AquaHelps.Infrastructure;
 public static class InfrastructureExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString, IConfiguration configuration)
     {
         services.
             AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
@@ -27,14 +32,19 @@ public static class InfrastructureExtensions
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        services.AddIdentityServer()
-            .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-        ;
+        /*services.AddIdentityServer()
+            .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();*/
+        
+        services.AddAuthorization();
 
-        services.AddAuthentication()
-            .AddIdentityServerJwt();
-
-
+        services
+            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            /*.AddCookie(options =>
+            {
+                options.Cookie.Name = configuration.GetSection("Cookie")["Name"];
+                options.ExpireTimeSpan = TimeSpan.Parse(configuration.GetSection("Cookie")["ExpiresAfter"]);
+            })
+            .AddApplicationCookie()*/;
         services
             .AddTransient<UsersSetup>()
             .AddScoped<RoleRepository>();

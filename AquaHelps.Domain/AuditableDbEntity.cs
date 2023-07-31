@@ -3,7 +3,7 @@
 namespace AquaHelps.Domain;
 public abstract class AuditableDbEntity : DbEntity
 {
-    public string CreatorId { get; set; }
     public ApplicationUser Creator { get; set; }
+    public string CreatorId { get; set; }
     public DateTime CreatedOn { get; set; }
 }

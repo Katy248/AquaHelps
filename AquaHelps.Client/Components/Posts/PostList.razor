@@ -1,0 +1,31 @@
+﻿@inject MarkdownService MarkdownService
+<div class="flex flex-col gap-2">
+    @if (Posts is null)
+    {
+        <Loading />
+    }
+    else if (Posts.Count() == 0)
+    {
+        <div>Empty</div>
+    }
+    else
+    {
+        <div class="flex flex-col gap-2 markdown">
+            @foreach (var post in Posts)
+            {
+
+                <div class="bg-gradient-to-br rounded-xl p-5 from-white to-gray-200 shadow-white drop-shadow-2xl">
+                    <div class=" text-lg">@(MarkdownService.ParseToHtml(post.Text))</div>
+                    <div class="flex gap-2 justify-between">
+                        <div class="text-gray-300 text-sm pt-3">@post.CreatedOn</div>
+                        <Button ButtonText="View more" ButtonType="Hidden"></Button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+@code {
+    [Parameter] public bool ShowViewChangeToggle { get; set; } = true;
+    [Parameter] public IEnumerable<Post> Posts { get; set; }
+}

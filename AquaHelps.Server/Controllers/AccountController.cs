@@ -1,9 +1,13 @@
-﻿using AquaHelps.Domain.Models;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using AquaHelps.Domain.Models;
 using AquaHelps.Shared.Requests.Account;
 using AquaHelps.Shared.Responses.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AquaHelps.Server.Controllers;
 
@@ -12,11 +16,13 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IConfiguration _configuration;
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _configuration = configuration;
     }
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest model)
@@ -31,7 +37,7 @@ public class AccountController : ControllerBase
         if (result.Succeeded)
             return Ok();
         else
-            return BadRequest(result);
+            return BadRequest();
     }
     [HttpPost("ChangePassword"), Authorize]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest model)

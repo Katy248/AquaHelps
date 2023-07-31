@@ -6,6 +6,7 @@ using AquaHelps.Application.CQRS.Posts.Queries.GetAll;
 using AquaHelps.Application.CQRS.Posts.Queries.Search;
 using AquaHelps.Shared.Requests.Posts;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Web;

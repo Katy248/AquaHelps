@@ -15,6 +15,10 @@ public static class ApplicationExtensions
             .AddMediatR(config =>
             {
                 config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            })
+            .AddAutoMapper(config =>
+            {
+                config.AddMaps(new[] { typeof(ApplicationExtensions).Assembly });
             });
     }
 }

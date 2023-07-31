@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -18,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AquaHelps.Application\AquaHelps.Application.csproj" />
+    <ProjectReference Include="..\AquaHelps.Client\AquaHelps.Client.csproj" />
     <ProjectReference Include="..\AquaHelps.Shared\AquaHelps.Shared.csproj" />
   </ItemGroup>
 
