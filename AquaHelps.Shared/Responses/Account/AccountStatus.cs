@@ -5,4 +5,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AquaHelps.Shared.Responses.Account;
-public record AccountStatus(string Status);
+public record AccountStatus(bool Authorized, string? UserName, string? UserId);

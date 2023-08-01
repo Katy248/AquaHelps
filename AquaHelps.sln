@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AquaHelps.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AquaHelps.Server", "AquaHelps.Server\AquaHelps.Server.csproj", "{008ECB84-EBDC-44A3-9B95-8399E9B1F16B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquaHelps.Shared", "AquaHelps.Shared\AquaHelps.Shared.csproj", "{3EC6D201-7151-43DA-88E3-840BB5566FF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AquaHelps.Shared", "AquaHelps.Shared\AquaHelps.Shared.csproj", "{3EC6D201-7151-43DA-88E3-840BB5566FF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

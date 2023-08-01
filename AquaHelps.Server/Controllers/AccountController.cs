@@ -16,12 +16,18 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly IConfiguration _configuration;
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+    public AccountController(
+        UserManager<ApplicationUser> userManager, 
+        SignInManager<ApplicationUser> signInManager, 
+        RoleManager<IdentityRole> roleManager,
+        IConfiguration configuration)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _roleManager = roleManager;
         _configuration = configuration;
     }
     [HttpPost("Login")]
@@ -62,8 +68,8 @@ public class AccountController : ControllerBase
     public async Task<IActionResult> Status()
     {
         if (_signInManager.IsSignedIn(User))
-            return Ok(new AccountStatus("SignedIn"));
+            return Ok(new AccountStatus(true, _userManager.GetUserName(User), _userManager.GetUserId(User)));
         else
-            return Ok(new AccountStatus("NotSignedIn"));
+            return Ok(new AccountStatus(false , null, null));
     }
 }
