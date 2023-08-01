@@ -1,8 +1,4 @@
-﻿@using AquaHelps.Client.Services
-
-@inject AccountService Account
-
-<div class="flex flex-col-reverse gap-2 sm:flex-col">
+﻿<div class="flex flex-col-reverse gap-2 sm:flex-col">
 
     <div class="flex flex-row justify-around sm:justify-between gap-2 bg-white rounded-xl p-2 shadow-white drop-shadow-2xl">
         <div class="flex flex-row gap-2 sm:justify-start w-2/3 sm:w-auto">
@@ -40,12 +36,8 @@
 
     private IEnumerable<(string Text, string Page, string? IconName)> Pages = new[] { ("Home", "/", "house"), ("Docs", "", "file-earmark-text"), ("Search", "/Search", "search") };
 
-    private bool _isSignedIn = false;
-
     protected async override Task OnInitializedAsync()
     {
-        _isSignedIn = await Account.IsSignedIn();
-
         await base.OnInitializedAsync();
     }
 }

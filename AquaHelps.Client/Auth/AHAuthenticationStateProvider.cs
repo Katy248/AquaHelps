@@ -36,7 +36,7 @@ public class AHAuthenticationStateProvider : AuthenticationStateProvider
         var status = (await _httpClient.GetFromJsonAsync<AccountStatus>("/api/Account/Status"));
 
         if (status is null)
-            throw new NullReferenceException();
+            throw new NullReferenceException("Bad response from server.");
 
         return status;
     }
