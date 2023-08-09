@@ -3,20 +3,51 @@
 @using AquaHelps.Client.Services
 @using AquaHelps.Client.Components
 @using AquaHelps.Client.Models
+@using System.Security.Claims;
+@using System.IdentityModel.Tokens.Jwt;
 
 @inject PostsService PostsService
 @inject MarkdownService MarkdownService
+@inject AHAuthenticationStateProvider AuthProvider
 
 @* <div class="text-2xl text-center text-white font-semibold">AquaHelps</div> *@
-
+@foreach (var claim in _claims)
+{
+    <div>
+        @claim.Type
+        @claim.Value
+    </div>
+}
+<div>
+    @error
+    @token
+    @foreach (var claim in token.Claims)
+    {
+        <div>
+            @claim.Type
+            @claim.Value
+        </div>
+    }
+</div>
 <PostList Posts="_posts"/>
 
 @code{
     private IEnumerable<Post>? _posts;
+    private IEnumerable<Claim> _claims;
+    private string error;
+    private JwtSecurityToken token;
     protected override async Task OnInitializedAsync()
     {
-        _posts = await PostsService.GetPosts();
-
+        token = await AuthProvider.Token();
+        try
+        {
+            _claims = await AuthProvider.Claims();
+        }
+        finally
+        {
+            _claims = new List<Claim>() { new Claim("my", "my") };
+        }
+            _posts = await PostsService.GetPosts();
         await base.OnInitializedAsync();
     }
 }

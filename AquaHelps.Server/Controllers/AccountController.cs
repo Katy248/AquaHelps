@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using AquaHelps.Domain.Models;
+using AquaHelps.Infrastructure.Authentication;
 using AquaHelps.Shared.Requests.Account;
 using AquaHelps.Shared.Responses.Account;
 using Microsoft.AspNetCore.Authorization;
@@ -17,17 +18,20 @@ public class AccountController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly TokenProvider _tokenProvider;
     private readonly IConfiguration _configuration;
 
     public AccountController(
         UserManager<ApplicationUser> userManager, 
         SignInManager<ApplicationUser> signInManager, 
         RoleManager<IdentityRole> roleManager,
+        TokenProvider tokenProvider,
         IConfiguration configuration)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
+        _tokenProvider = tokenProvider;
         _configuration = configuration;
     }
     [HttpPost("Login")]
@@ -38,12 +42,16 @@ public class AccountController : ControllerBase
         if (user is null)
             return NotFound();
 
-        var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
+        //var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, false);
+        var result = await _userManager.CheckPasswordAsync(user, model.Password);
 
-        if (result.Succeeded)
-            return Ok();
+        if (result)
+        {
+            var token = _tokenProvider.GetToken(user);
+            return Ok(new LoginResponse(true, new JwtSecurityTokenHandler().WriteToken(token)));
+        }
         else
-            return BadRequest();
+            return BadRequest(new LoginResponse(false, null));
     }
     [HttpPost("ChangePassword"), Authorize]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest model)
@@ -57,7 +65,7 @@ public class AccountController : ControllerBase
         else
             return BadRequest(result.Errors);
     }
-    [HttpGet("Logout"), Authorize]
+    [HttpGet("Logout")]
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();

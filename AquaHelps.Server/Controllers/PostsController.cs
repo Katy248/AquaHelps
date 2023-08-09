@@ -34,6 +34,8 @@ public class PostsController : ControllerBase
     [HttpGet("Get")]
     public async Task<IActionResult> Get()
     {
+        var ctx = HttpContext.Request;
+        var user = User;
         var command = new GetAllPostsQuery(Application.Interfaces.CQRS.Queries.OrderType.ByDateDescending);
 
         var result = await _mediator.Send(command);

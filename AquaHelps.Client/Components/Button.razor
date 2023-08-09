@@ -1,6 +1,6 @@
 @inject NavigationManager NavigationManager
 <button class="@ColorClasses() flex-grow sm:flex-grow-0 transition ease-in-out  duration-300" @onclick="ClickHandler">
-    <div class=" font-medium py-2 px-4 flex flex-row justify-center ">
+    <div class="font-medium py-2 px-4 flex flex-row justify-center ">
         @if (IconName is not null)
         {
             <i class="text-center @(string.IsNullOrWhiteSpace(ButtonText) ? "" : "pe-3") bi-@IconName"></i>
@@ -16,11 +16,11 @@
     [Parameter] public string? IconName { get; set; }
     [Parameter] public string Page { get; set; } = string.Empty; 
     [Parameter] public string ButtonType { get; set; } = string.Empty; 
-    [Parameter] public Task? OnClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    private async Task ClickHandler()
+    private async Task ClickHandler(MouseEventArgs args)
     {
-        if (OnClick is not null) await OnClick;
+        if (OnClick.HasDelegate) await OnClick.InvokeAsync(args);
         if (!string.IsNullOrWhiteSpace(Page)) { NavigationManager.NavigateTo(Page); }
     }
 

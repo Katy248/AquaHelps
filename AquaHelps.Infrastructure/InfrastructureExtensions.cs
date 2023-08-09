@@ -1,9 +1,8 @@
 ﻿using System.Text;
 using AquaHelps.Domain.Models;
+using AquaHelps.Infrastructure.Authentication;
 using AquaHelps.Infrastructure.Repository;
 using AquaHelps.Infrastructure.Setup;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -35,18 +34,26 @@ public static class InfrastructureExtensions
         /*services.AddIdentityServer()
             .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();*/
         
-        services.AddAuthorization();
 
         services
-            .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            /*.AddCookie(options =>
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                options.Cookie.Name = configuration.GetSection("Cookie")["Name"];
-                options.ExpireTimeSpan = TimeSpan.Parse(configuration.GetSection("Cookie")["ExpiresAfter"]);
-            })
-            .AddApplicationCookie()*/;
+                options.TokenValidationParameters = new()
+                {
+                    ValidIssuers = configuration.GetRequiredSection("Jwt:Issuers").Get<IEnumerable<string>>(),
+                    ValidAudiences = configuration.GetRequiredSection("Jwt:Audiences").Get<IEnumerable<string>>(),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetRequiredSection("Jwt:SecurityKey").Get<string>() ?? "")),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                };
+            });
+        services.AddAuthorization();
         services
             .AddTransient<UsersSetup>()
+            .AddScoped<TokenProvider>()
             .AddScoped<RoleRepository>();
 
         return services;

@@ -1,4 +1,6 @@
-﻿<div class="flex flex-col-reverse gap-2 sm:flex-col">
+﻿@inject AHAuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
+<div class="flex flex-col-reverse gap-2 sm:flex-col">
 
     <div class="flex flex-row justify-around sm:justify-between gap-2 bg-white rounded-xl p-2 shadow-white drop-shadow-2xl">
         <div class="flex flex-row gap-2 sm:justify-start w-2/3 sm:w-auto">
@@ -25,7 +27,7 @@
         <Authorized>
             <div class="flex flex-row justify-between gap-2 sm:justify-start bg-white rounded-xl p-2 shadow-white drop-shadow-2xl">
                 <Button ButtonText="Account" Page="/Account" IconName="person"></Button>
-                <Button ButtonText="Logout" IconName="box-arrow-right" ButtonType="Secondary"></Button>
+                    <Button ButtonText="Logout" IconName="box-arrow-right" ButtonType="Secondary" OnClick="LogoutHandler"></Button>
             </div>
         </Authorized>
     </AuthorizeView>
@@ -39,5 +41,11 @@
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+    }
+    private async Task LogoutHandler()
+    {
+        await AuthProvider.Logout();
+        //StateHasChanged();
+        NavManager.NavigateTo("/");
     }
 }

@@ -1,8 +1,2 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AquaHelps.Shared.Responses.Account;
+﻿namespace AquaHelps.Shared.Responses.Account;
 public record LoginResponse(bool Success, string? Token);
