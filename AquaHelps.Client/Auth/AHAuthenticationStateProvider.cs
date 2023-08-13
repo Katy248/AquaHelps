@@ -53,6 +53,10 @@ public class AHAuthenticationStateProvider : AuthenticationStateProvider
 
         return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(authenticationType: "apiauth", claims: jwt.Claims)));
     }
+    private void GetCookie()
+    {
+        
+    }
     private JwtSecurityToken GetJwtSecurityToken(string jwtToken)
     {
         var token = new JwtSecurityTokenHandler() { MapInboundClaims = true }.ReadJwtToken(jwtToken);

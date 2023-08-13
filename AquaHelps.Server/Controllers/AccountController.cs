@@ -48,7 +48,8 @@ public class AccountController : ControllerBase
         if (result)
         {
             var token = _tokenProvider.GetToken(user);
-            return Ok(new LoginResponse(true, new JwtSecurityTokenHandler().WriteToken(token)));
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            return Ok(new LoginResponse(true, tokenString));
         }
         else
             return BadRequest(new LoginResponse(false, null));

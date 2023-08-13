@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using AquaHelps.Domain.Models;
 using AquaHelps.Infrastructure.Authentication;
 using AquaHelps.Infrastructure.Repository;
@@ -29,16 +30,25 @@ public static class InfrastructureExtensions
             options.SignIn.RequireConfirmedAccount = true;
         })
             .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+        //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         /*services.AddIdentityServer()
             .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();*/
         
 
         services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new()
                 {
                     ValidIssuers = configuration.GetRequiredSection("Jwt:Issuers").Get<IEnumerable<string>>(),
@@ -48,9 +58,9 @@ public static class InfrastructureExtensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+                    TokenDecryptionKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetRequiredSection("Jwt:SecurityKey").Get<string>() ?? "")),
                 };
             });
-        services.AddAuthorization();
         services
             .AddTransient<UsersSetup>()
             .AddScoped<TokenProvider>()

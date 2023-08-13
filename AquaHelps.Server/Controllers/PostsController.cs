@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Web;
 
 namespace AquaHelps.Server.Controllers;
@@ -31,11 +32,12 @@ public class PostsController : ControllerBase
 
         return result.Match<IActionResult>(Ok, BadRequest);
     }
-    [HttpGet("Get")]
+    [HttpGet("Get"), Authorize]
     public async Task<IActionResult> Get()
     {
         var ctx = HttpContext.Request;
         var user = User;
+        var claim = ClaimTypes.Email;
         var command = new GetAllPostsQuery(Application.Interfaces.CQRS.Queries.OrderType.ByDateDescending);
 
         var result = await _mediator.Send(command);

@@ -22,18 +22,20 @@ public class TokenProvider
 
     public JwtSecurityToken GetToken(ApplicationUser user, IdentityRole? userRole = null)
     {
+        var tokenHandler = new JwtSecurityTokenHandler();
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetRequiredSection("Jwt:SecurityKey").Get<string>() ?? ""));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
         var claims = new[]
         {
+            new Claim(ClaimTypes.Name, user.UserName ?? ""),
             new Claim(ClaimTypes.NameIdentifier, user.UserName ?? ""),
             new Claim(ClaimTypes.Email, user.Email ?? ""),
-            new Claim(ClaimTypes.Role, userRole?.Name ?? ""),
+            //new Claim(ClaimTypes.Role, userRole?.Name ?? ""),
         };
-        var token = new JwtSecurityToken(
+        var token = tokenHandler.CreateJwtSecurityToken(
             issuer: string.Join(';', _configuration.GetRequiredSection("Jwt:Issuers").Get<IEnumerable<string>>()),
             audience: string.Join(';', _configuration.GetRequiredSection("Jwt:Audiences").Get<IEnumerable<string>>()),
-            claims: claims,
+            subject: new ClaimsIdentity(claims),
             expires: DateTime.UtcNow.AddDays(_configuration.GetRequiredSection("Jwt:ExpiryInDays").Get<int>()),
             signingCredentials: credentials);
 

@@ -28,6 +28,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseWebAssemblyDebugging();
 }
 
 //app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
@@ -41,6 +42,7 @@ app.SetupDatabase();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+
 app.MapFallbackToFile("index.html");
 
 app.Run();
