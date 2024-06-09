@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+<div class="flex flex-col">
+    <header>
+        <NavMenu/>
+    </header>
+
+    <main class="px-4 xl:px-64 flex-grow">
+        @Body
+
+    </main>
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    
+    <footer>
+        <Footer/>
+    </footer>
+</div>

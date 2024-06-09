@@ -16,11 +16,11 @@ jobs:
     - name: Setup .NET 7
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '7.0.x'
+        dotnet-version: '8.0.x'
         
     # Generate static files
     - name: Publish project
-      run: dotnet publish AquaHelps.Client -c Release --output release --nologo
+      run: dotnet publish AquaHelps.Blazor -c Release --output release --nologo
       
     # Change '/' to '/AquaHelps/'
     - name: Change base-tag in index.html from / to AquaHelps

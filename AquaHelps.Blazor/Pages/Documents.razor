@@ -1,0 +1,28 @@
+@page "/Documents"
+<h2 class="pb-6">Documents</h2>
+<div class="flex flex-col gap-3">
+    @foreach (var doc in _documents)
+    {
+        <a class="flex flex-row gap-2 align-baseline bg-gray-200 rounded-md px-6 py-3 border-2 border-gray-300 hover:bg-slate-300 hover:border-slate-300" href="@doc.Href">
+            <i class="fa-regular fa-file-pdf text-xl pt-1 text-red-600"></i>
+            <div class="text-lg text-blue-400 underline">
+                @doc.Name.ToUpper()
+            </div>
+            @* <div></div> *@
+        </a>
+    }
+</div>
+
+@code {
+
+    Document[] _documents =
+    [
+        new("ГОСТ1", "https://ya.ru"),
+        new("ГОСТ2", "https://ya.ru"),
+        new("ГОСТ3", "https://ya.ru"),
+        new("ГОСТ4 ещё один гост", "https://ya.ru"),
+    ];
+
+    record Document(string Name, string Href);
+
+}

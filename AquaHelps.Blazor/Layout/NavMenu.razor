@@ -1,0 +1,76 @@
+﻿<nav class="m-4 bg-[#AEB3B7] p-4 rounded-lg">
+
+    <div class="flex flex-col gap-2">
+        <div class="flex flex-row items-center justify-center gap-3">
+            <div class="flex-grow">
+                <a class="text-xl font-bold px-6 text-primary-1" href="">AquaHelps</a>
+            </div>
+            <button
+                title="Navigation menu"
+                class="md:hidden btn text-primary-2 nav-toggler-btn text-xl @(collapseNavMenu ? "" : "checked")" @onclick="ToggleNavMenu">
+                @if (collapseNavMenu)
+                {
+                    <span class="fa-solid fa-bars "></span>
+                }
+                else
+                {
+                    <span class="fa-solid fa-bars-staggered"></span>
+                }
+            </button>
+            <div class="hidden md:flex" id="desktop-menu">
+                <div class="flex flex-row gap-3">
+                    <div class="nav-item">
+                        <NavLink class="btn btn-primary" href="" Match="NavLinkMatch.All">
+                            <i class="fa-regular fa-house"></i> Домашняя страница
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="btn btn-primary" href="counter">
+                            <i class="fa-solid fa-circle-info"></i> О нас
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="btn btn-primary" href="documents">
+                            <i class="fa-regular fa-file"></i> Документы
+                        </NavLink>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (!collapseNavMenu)
+        {
+            <div class="md:hidden flex flex-grow justify-stretch" id="mobile-menu">
+                <div class="flex md:flex-row flex-col flex-grow gap-3 rounded-lg">
+                    <div class="nav-item">
+                        <NavLink class="btn btn-primary" href="" Match="NavLinkMatch.All">
+                            <i class="fa-regular fa-house"></i> Домашняя страница
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="btn btn-primary" href="counter">
+                            <i class="fa-regular fa-circle-info"></i> О нас
+                        </NavLink>
+                    </div>
+                    <div class="nav-item">
+                        <NavLink class="btn btn-primary" href="documents">
+                            <i class="fa-regular fa-file"></i> Документы
+                        </NavLink>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</nav>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+}
